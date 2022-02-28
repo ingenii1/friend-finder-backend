@@ -11,7 +11,7 @@ exports.addUser = async (req, res)=>{
             city: req.body.city,
             country: req.body.country
         });
-        console.log(this.movies)
+        console.log(newUser)
         res.status(200).send({user: newUser});
     } catch (error) {
         console.log(error)
