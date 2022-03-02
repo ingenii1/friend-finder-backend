@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    name: {
+        type: String,
+        required: true
+    },
     gender: {
         type: String,
         required: false
@@ -31,6 +35,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    activity: {
+        type: Object,
+        required: false
+    },
+    intrests: {
+        type: Array,
+        required: false
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 const User = mongoose.model('User', userSchema);
