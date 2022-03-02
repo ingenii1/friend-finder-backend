@@ -1,7 +1,7 @@
 const User = require('./userModel');
 const bcrypt = require('bcryptjs');
 
-var username = 'sa';
+var username;
 
 // To signup a new user
 exports.addUser = async (req, res)=>{
@@ -30,9 +30,17 @@ exports.login = async (req, res)=>{
             username = user.username;
             if(match){
                 const username = user.username
-                res.status(200).send({message: "login successfull"}); 
+                res.status(200).send(
+                    {
+                        message: "login successful",
+                        value: true
+                    }); 
             }else{
-                res.send({error: "login failed"})
+                res.send(
+                    {
+                        error: "login failed",
+                        value: false
+                    })
             }
         } else{
             res.status(500).send({status: 'error', user: false}); 
@@ -72,20 +80,7 @@ exports.userInfo = async (req, res)=>{
 }
 
 
-exports.listUser = async (req, res) => {
-    try {
-        // const userList = await User.find({username: `${req.body.username}`});
-        const userList = await User.find({});
-        res.status(200).send({
-            users: userList,
-        });
-    } catch (error) {
-        res.status(500).send({ err: error.message });
-    }
-}
-
-
-// Delete user
+// Delete user account after login
 exports.deleteUser = async (req, res) => {
     try {
         const result = await User.deleteOne({username: req.body.username});
@@ -99,3 +94,14 @@ exports.deleteUser = async (req, res) => {
         res.status(500).send({error: error.message});
     }
 }
+        exports.listUser = async (req, res) => {
+            try {
+                // const userList = await User.find({username: `${req.body.username}`});
+                const userList = await User.find({});
+                res.status(200).send({
+                    users: userList,
+                });
+            } catch (error) {
+                res.status(500).send({ err: error.message });
+            }
+        }
