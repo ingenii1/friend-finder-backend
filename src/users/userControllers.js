@@ -9,7 +9,8 @@ exports.addUser = async (req, res)=>{
         const newUser = await User.create({
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            name: "to be added after login"
         });
         console.log(newUser)
         res.status(200).send({user: newUser});
