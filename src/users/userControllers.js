@@ -35,7 +35,7 @@ exports.login = async (req, res)=>{
                 res.send({error: "login failed"})
             }
         } else{
-            res.status(200).send({status: 'error', user: false}); 
+            res.status(500).send({status: 'error', user: false}); 
         }
     } catch (error) {
         console.log(error)
@@ -46,16 +46,24 @@ exports.login = async (req, res)=>{
 //To add additional data after user logins
 exports.userInfo = async (req, res)=>{
     try {
+        class Act {
+            constructor(act, desc) {
+                this.act = act;
+                this.desc = desc;
+            }
+        }
         const filter = { username: username };
-        const update = {             
+        const update = {       
+            name: req.body.name,      
             gender: req.body.gender,
-            age: req.body.age,
+            age: req.body.age,  
             city: req.body.city,
             country: req.body.country,
-            activity: req.body.activity,
-            intrests: req.body.intrests.split(',') };
+            intrests: req.body.intrests.split(','),
+            activity: new Act(req.body.activity, req.body.activityDescription)
+            };
         const newUser = await User.findOneAndUpdate(filter, update, {new: true});
-        console.log(newUser)
+        // console.log(newUser)
         res.status(200).send({'user-details': newUser});
     } catch (error) {
         console.log(error)
