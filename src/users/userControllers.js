@@ -7,7 +7,7 @@ var email;
 exports.addUser = async (req, res) => {
   try {
     const newUser = await User.create({
-      email: req.body.email,
+      username: req.body.username,
       email: req.body.email,
       password: req.body.password,
       name: "to be added after login",
@@ -30,7 +30,6 @@ exports.login = async (req, res) => {
       const match = await bcrypt.compare(req.body.password, user.password);
       email = user.email;
       if (match) {
-        const email = user.email;
         res.status(200).send({
           message: "login successful",
           value: true,
@@ -50,6 +49,16 @@ exports.login = async (req, res) => {
   }
 };
 
+//To get list of all users
+exports.listUser = async (req, res) => {
+  try {
+    const userList = await User.find();
+    res.status(200).send(userList);
+  } catch (error) {
+    res.status(500).send({ err: error.message });
+  }
+};
+
 //To get user details
 exports.userDetails = async (req, res) => {
   try {
@@ -65,12 +74,6 @@ exports.userDetails = async (req, res) => {
 //To add additional data after user logins
 exports.userInfo = async (req, res) => {
   try {
-    class Act {
-      constructor(act, desc) {
-        this.act = act;
-        this.desc = desc;
-      }
-    }
     const filter = { email: email };
     const update = {
       name: req.body.name,
@@ -78,8 +81,10 @@ exports.userInfo = async (req, res) => {
       age: req.body.age,
       city: req.body.city,
       country: req.body.country,
-      interests: req.body.interests.split(","),
-      activity: new Act(req.body.activity, req.body.activityDescription),
+      image: req.body.image,
+      interests: req.body.interests,
+      activity: req.body.activity,
+      activityDescription: req.body.activityDescription,
     };
     const newUser = await User.findOneAndUpdate(filter, update, { new: true });
     // console.log(newUser)
@@ -104,16 +109,5 @@ exports.deleteUser = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send({ error: error.message });
-  }
-};
-exports.listUser = async (req, res) => {
-  try {
-    // const userList = await User.find({email: `${req.body.email}`});
-    const userList = await User.find({});
-    res.status(200).send({
-      users: userList,
-    });
-  } catch (error) {
-    res.status(500).send({ err: error.message });
   }
 };

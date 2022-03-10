@@ -35,17 +35,21 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  image: {
+    type: String,
+    required: false,
+  },
   activity: {
-    type: Object,
+    type: String,
     required: false,
   },
-  intrests: {
-    type: Array,
+  activityDescription: {
+    type: String,
     required: false,
   },
-  date: {
-    type: Date,
-    default: Date.now,
+  interests: {
+    type: String,
+    required: false,
   },
 });
 
