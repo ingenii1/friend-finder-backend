@@ -1,29 +1,30 @@
+//import momgoose library in order to use the mongoose model
 const mongoose = require('mongoose');
+
+//function which returns the current date: year and time
+const d = new Date();
+d.getFullYear();
+
+//console.log("Friends since " + (d));
 
 const friendSchema = mongoose.Schema({
     name:{
         type:String,
         required:true,
-        
     },
     
-    actor:{
+    location:{
         type:String,
         required:true,
-        default :'actor unknown',
-        
-
     },
     
     year: {
     type: Number,
     required: false,
+    default: "None",
   },
 
-  update: {
-    type: String,
-    required: false,
-  },
+
 });
 
 const friendListModel = mongoose.model('Friends',friendSchema);
